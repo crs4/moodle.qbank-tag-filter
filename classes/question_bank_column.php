@@ -20,19 +20,31 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
 
     protected function display_content($question, $rowclasses)
     {
-        echo $question->tagname;
+        // Single TAG
+        //echo $question->tagname;
+
+        // Multi TAG
+        echo $this->get_question_tags($question->id);
     }
 
 
     public function get_extra_joins()
     {
-        return array('tags' => 'LEFT JOIN {tag_instance} tagi ON tagi.itemid = q.id LEFT JOIN {tag} tag ON tag.id = tagi.tagid');
+        // Single TAG
+        //return array('tags' => 'LEFT JOIN {tag_instance} tagi ON tagi.itemid = q.id LEFT JOIN {tag} tag ON tag.id = tagi.tagid');
+
+        // Multi TAG
+        return array();
     }
 
 
     public function get_required_fields()
     {
-        return array("tag.name AS tagname");
+        // Single TAG
+        //return array("tag.name AS tagname");
+
+        // Multi TAG
+        return array();
     }
 
     /**
@@ -50,7 +62,37 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
      */
     public function is_sortable()
     {
-        return 'tag.name';
+        // Single TAG
+        //return 'tag.name';
+
+        // Multi TAG
+        return '';
+
+    }
+
+    /**
+     * Returns a string of comma separated tags related
+     * to a given question
+     *
+     * @param $questionid
+     * @param string $sortorder
+     * @return string
+     */
+    protected function get_question_tags($questionid, $sortorder = 'name ASC') {
+        global $DB;
+        $values = $DB->get_records_sql("
+            SELECT DISTINCT t.id as id, t.name AS name
+              FROM {tag} t JOIN {tag_instance} ti ON t.id=ti.tagid
+                           JOIN {question} q ON q.id=ti.itemid
+              WHERE q.id=$questionid
+          ORDER BY $sortorder");
+
+        $options = array();
+        foreach($values as $name=>$value){
+            $options[] = $value->name;
+        }
+
+        return implode(", ", $options);
     }
 }
 
