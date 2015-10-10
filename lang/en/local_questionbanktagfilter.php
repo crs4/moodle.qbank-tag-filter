@@ -8,3 +8,6 @@
 
 $string['pluginname'] = "Question Bank Tag Filter";
 $string['selectonetag']="Select one TAG:";
+$string['selectoneormoretag']="Select one or more TAGs:";
+
+$string['filterbyselectedtags']="Filter by selected tags";
