@@ -40,8 +40,9 @@ class question_bank_tag_condition extends \core_question\bank\search\condition
         if(isset($_REQUEST["tag"])) {
             $current_tag = $_REQUEST["tag"];
             if (!empty($current_tag) && $current_tag !== "all") {
-                list($tagidtest, $this->params) = $DB->get_in_or_equal($_REQUEST["tag"], SQL_PARAMS_NAMED, 'tag');
-                $this->where = 'tag.id ' . $tagidtest;
+                //list($tagidtest, $this->params) = $DB->get_in_or_equal($_REQUEST["tag"], SQL_PARAMS_NAMED, 'tag');
+                //$this->where = 'q.id ' . $tagidtest;
+                $this->where = "q.id IN (SELECT tagi.itemid FROM {tag_instance} tagi WHERE tagi.tagid IN ($current_tag))";
             }
         }
     }
