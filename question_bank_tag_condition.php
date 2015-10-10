@@ -37,11 +37,10 @@ class question_bank_tag_condition extends \core_question\bank\search\condition
         $tagidtest = null;
         $this->params = array();
 
-        if(isset($_REQUEST["tag"])) {
-            $current_tag = $_REQUEST["tag"];
+        if(isset($_REQUEST["tags"]) && $_REQUEST["tags"] !== "*") {
+            $current_tag = $_REQUEST["tags"];
             if (!empty($current_tag) && $current_tag !== "all") {
-                list($tagidtest, $this->params) = $DB->get_in_or_equal($_REQUEST["tag"], SQL_PARAMS_NAMED, 'tag');
-                $this->where = 'tag.id ' . $tagidtest;
+                $this->where = "q.id IN (SELECT tagi.itemid FROM {tag_instance} tagi WHERE tagi.tagid IN ($current_tag))";
             }
         }
     }
@@ -54,9 +53,6 @@ class question_bank_tag_condition extends \core_question\bank\search\condition
         return $this->params;
     }
 
-
-
-
     protected function get_tag_options($sortorder = 'name ASC') {
         global $DB;
         $values = $DB->get_records_sql("
@@ -64,7 +60,7 @@ class question_bank_tag_condition extends \core_question\bank\search\condition
               FROM {tag} t JOIN {tag_instance} ti ON t.id=ti.tagid
           ORDER BY $sortorder");
 
-        $options = array("all" => "all tags");
+        $options = array("*" => "all tags");
         foreach($values as $name=>$value){
             $options[$value->id] = $value->name;
         }
@@ -72,21 +68,30 @@ class question_bank_tag_condition extends \core_question\bank\search\condition
         return $options;
     }
 
-
     public function display_options() {
-        echo \html_writer::start_div('choosetag', array("style"=> "margin: 20px 0px;"));
-        $current_tag = isset($_REQUEST['tag']) ? $_REQUEST['tag'] : "all";
+        global $PAGE;
+        // Includes a JavaScript
+        $jsmodule = array(
+            'name' => 'question_bank_tag_filter_utils',
+            'fullpath' => '/local/questionbanktagfilter/question_bank_tag_filter_utils.js',
+            'requires' => array());
+        $PAGE->requires->js_init_call('M.question_bank_tag_filter_helper.init', array(), true, $jsmodule);
+
+        $current_tags_value = isset($_REQUEST['tags']) ? $_REQUEST['tags'] : "";
+        $current_tags = explode(",", $current_tags_value);
         $tagmenu = $this->get_tag_options();
-        echo \html_writer::label(get_string('selectonetag', 'local_questionbanktagfilter'), 'id_selectatag');
-        echo \html_writer::select($tagmenu, 'tag', $current_tag, array(), array(
-            'onchange' => "console.log(this); ",
-            'class' => 'searchoptions',
+
+        echo \html_writer::start_div('choosetag', array("style"=> "margin: 20px 0px;"));
+        echo '<input id="id_tags" name="tags" type="hidden" value="' . $current_tags_value .'"/>';
+        echo \html_writer::label(get_string('selectoneormoretag', 'local_questionbanktagfilter'), 'id_selectatag');
+        echo \html_writer::select($tagmenu, 'tag', $current_tags, array(), array(
+            'multiple' => '',
+            'size' => '5',
+            'style' => 'min-width: 300px; padding: 5px',
             'id' => 'id_selectatag'
         ));
-
-        echo '<script type="text/javascript">document.getElementById("id_selectatag").onchange=';
-        echo 'function(){ document.getElementById("displayoptions").submit() }';
-        echo '</script>';
+        echo '<br/><input id="search_by_tag_button" type="button" value="' .
+            get_string('filterbyselectedtags', 'local_questionbanktagfilter') . '"/>';
         echo \html_writer::end_div() . "\n";
     }
 
@@ -97,5 +102,4 @@ class question_bank_tag_condition extends \core_question\bank\search\condition
         echo \html_writer::start_div();
         echo \html_writer::end_div() . "\n";
     }
-
 }
