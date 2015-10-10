@@ -20,30 +20,18 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
 
     protected function display_content($question, $rowclasses)
     {
-        // Single TAG
-        //echo $question->tagname;
-
-        // Multi TAG
         echo $this->get_question_tags($question->id);
     }
 
 
     public function get_extra_joins()
     {
-        // Single TAG
-        //return array('tags' => 'LEFT JOIN {tag_instance} tagi ON tagi.itemid = q.id LEFT JOIN {tag} tag ON tag.id = tagi.tagid');
-
-        // Multi TAG
         return array();
     }
 
 
     public function get_required_fields()
     {
-        // Single TAG
-        //return array("tag.name AS tagname");
-
-        // Multi TAG
         return array();
     }
 
@@ -62,10 +50,6 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
      */
     public function is_sortable()
     {
-        // Single TAG
-        //return 'tag.name';
-
-        // Multi TAG
         return '';
 
     }
