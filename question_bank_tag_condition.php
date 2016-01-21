@@ -60,7 +60,7 @@ class question_bank_tag_condition extends \core_question\bank\search\condition
               FROM {tag} t JOIN {tag_instance} ti ON t.id=ti.tagid
           ORDER BY $sortorder");
 
-        $options = array("*" => "all tags");
+        $options = array("*" => get_string("alltags", 'local_questionbanktagfilter'));
         foreach($values as $name=>$value){
             $options[$value->id] = $value->name;
         }
