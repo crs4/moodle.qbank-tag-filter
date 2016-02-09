@@ -12,3 +12,6 @@ $string['selectonetag']="Select one TAG:";
 $string["alltags"] = "all classifiers";
 $string['selectoneormoretag']="Select one or more classifiers:";
 $string['filterbyselectedtags']="Filter by selected classifiers";
+
+# question bank column name
+$string['column_title']="Classifiers";

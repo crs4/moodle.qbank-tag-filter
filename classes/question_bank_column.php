@@ -15,7 +15,7 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
 
     protected function get_title()
     {
-        return 'Tags';
+        return get_string("column_title", 'local_questionbanktagfilter');
     }
 
     protected function display_content($question, $rowclasses)
