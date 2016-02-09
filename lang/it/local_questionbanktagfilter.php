@@ -12,3 +12,6 @@ $string['selectonetag']="Seleziona un TAG:";
 $string["alltags"] = "tutti i classificatori";
 $string['selectoneormoretag']="Seleziona uno o più classificatori:";
 $string['filterbyselectedtags']="Filtra per classificatore";
+
+# question bank column name
+$string['column_title']="Classificatori";
