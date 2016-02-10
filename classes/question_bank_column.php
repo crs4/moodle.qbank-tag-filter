@@ -1,11 +1,37 @@
 <?php
 
+// Copyright (c) 2015-2016, CRS4
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 defined('MOODLE_INTERNAL') || die;
 
 global $CFG;
 require_once($CFG->dirroot . '/question/editlib.php');
 
-
+/**
+ * Definition of the QuestionBank column.
+ *
+ * @package    local
+ * @subpackage questionbanktagfilter
+ * @copyright  2015-2016 CRS4
+ * @licence    https://opensource.org/licenses/mit-license.php MIT licence
+ */
 class local_questionbanktagfilter_question_bank_column extends \core_question\bank\column_base
 {
     public function get_name()
@@ -79,39 +105,3 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
         return implode(", ", $options);
     }
 }
-
-/*
-
-    public function display_header() {
-        // echo "displaying header for name: " . $this->get_name() . "title: " . $this->get_title() . ". Sortable: " . $this->is_sortable() . "<br />\n";
-        echo '<th class="header ' . $this->get_classes() . '" scope="col">';
-        $sortable = $this->is_sortable();
-        $name = $this->get_name();
-        $title = $this->get_title();
-        $tip = $this->get_title_tip();
-        if (is_array($sortable)) {
-            if ($title) {
-                echo '<div class="title">' . $title . '</div>';
-            }
-            $links = array();
-            foreach ($sortable as $subsort => $details) {
-                $links[] = $this->make_sort_link($name . '_' . $subsort,
-                        $details['title'], '', !empty($details['reverse']));
-            }
-            echo '<div class="sorters">' . implode(' / ', $links) . '</div>';
-        } else if ($sortable) {
-            // echo $this->make_sort_link($name, $title, $tip);
-           echo $this->make_sort_link($sortable, $title, $tip);
-        } else {
-            if ($tip) {
-                echo '<span title="' . $tip . '">';
-            }
-            echo $title;
-            if ($tip) {
-                echo '</span>';
-            }
-        }
-        echo "</th>\n";
-    }
-*/
-
