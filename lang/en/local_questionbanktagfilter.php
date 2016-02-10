@@ -25,7 +25,7 @@
  * @package    local
  * @subpackage questionbanktagfilter
  * @copyright  2015-2016 CRS4
- * @licence    https://opensource.org/licenses/mit-license.php MIT licence
+ * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
 
 $string['pluginname'] = "Question Bank Tag Filter";

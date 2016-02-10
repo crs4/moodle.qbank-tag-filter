@@ -35,7 +35,7 @@ require_once($CFG->dirroot . '/question/editlib.php');
  * @package    local
  * @subpackage questionbanktagfilter
  * @copyright  2015-2016 CRS4
- * @licence    https://opensource.org/licenses/mit-license.php MIT licence
+ * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
 function local_questionbanktagfilter_get_question_bank_search_conditions(core_question\bank\view $view){
     $condition = new \question_bank_tag_condition(true);

@@ -30,7 +30,7 @@ require_once($CFG->dirroot . '/question/editlib.php');
  * @package    local
  * @subpackage questionbanktagfilter
  * @copyright  2015-2016 CRS4
- * @licence    https://opensource.org/licenses/mit-license.php MIT licence
+ * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
 class local_questionbanktagfilter_question_bank_column extends \core_question\bank\column_base
 {

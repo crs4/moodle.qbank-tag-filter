@@ -29,7 +29,7 @@ require_once($CFG->dirroot . '/question/classes/bank/search/condition.php');
  * @package    local
  * @subpackage questionbanktagfilter
  * @copyright  2015-2016 CRS4
- * @licence    https://opensource.org/licenses/mit-license.php MIT licence
+ * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
 class question_bank_tag_condition extends \core_question\bank\search\condition
 {
