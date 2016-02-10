@@ -20,7 +20,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /**
- * omeromultichoice question type version information.
+ * questionbanktagfilter version information.
  *
  * @package    local
  * @subpackage questionbanktagfilter
