@@ -20,7 +20,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /**
- * questionbanktagfilter version information.
+ * Strings for the module 'local_questionbanktagfilter', language 'it'
  *
  * @package    local
  * @subpackage questionbanktagfilter
@@ -28,9 +28,12 @@
  * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = "Question Bank Tag Filter";
+$string['selectonetag']="Seleziona un TAG:";
 
-$plugin->version   = 2016012500;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2015051100;        // Requires this Moodle version.
-$plugin->component = 'local_questionbanktagfilter'; // Full name of the plugin (used for diagnostics).
-$plugin->cron      = 0;
+$string["alltags"] = "tutti i classificatori";
+$string['selectoneormoretag']="Seleziona uno o più classificatori:";
+$string['filterbyselectedtags']="Filtra per classificatore";
+
+# question bank column name
+$string['column_title']="Classificatori";
