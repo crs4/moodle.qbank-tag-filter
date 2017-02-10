@@ -33,9 +33,27 @@ require_once($CFG->dirroot . "/local/questionbanktagfilter/classes/question_bank
  * @copyright  2015-2016 CRS4
  * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
-function local_questionbanktagfilter_get_question_bank_search_conditions(core_question\bank\view $view){
-    $condition = new \question_bank_tag_condition(true);
-    $view->add_searchcondition($condition);
-    return $condition;
+function local_questionbanktagfilter_get_question_bank_search_conditions($caller)
+{
+    return array(new local_questionbanktagfilter_get_question_bank_search_condition($caller));
+}
+
+/**
+ * Registers the tag column to display in the QuestionBank
+ *
+ * @param \core_question\bank\view $view
+ * @return question_bank_column_base
+ *
+ * @package    local
+ * @subpackage questionbanktagfilter
+ * @copyright  2015-2016 CRS4
+ * @license    https://opensource.org/licenses/mit-license.php MIT license
+ */
+function local_questionbanktagfilter_get_question_bank_column_types($question_bank_view)
+{
+    if ($question_bank_view == 'quiz_question_bank_view') {
+        return array();
+    }
+    return array('tags' => new local_questionbanktagfilter_question_bank_column($question_bank_view));
 }
 
