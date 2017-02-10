@@ -31,7 +31,7 @@ require_once($CFG->dirroot . '/question/classes/bank/search/condition.php');
  * @copyright  2015-2016 CRS4
  * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
-class question_bank_tag_condition extends \core_question\bank\search\condition
+class local_questionbanktagfilter_get_question_bank_search_condition extends core_question\bank\search\condition
 {
     /** @var bool Whether to include old "deleted" questions. */
     protected $hide;
