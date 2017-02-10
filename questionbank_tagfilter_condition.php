@@ -131,5 +131,66 @@ class local_questionbanktagfilter_get_question_bank_search_condition extends cor
         $sql = "SELECT name as value, name as display FROM {tag} WHERE id IN (SELECT DISTINCT tagi.tagid FROM {tag_instance} tagi, {question} WHERE itemtype='question' AND {question}.id=tagi.itemid AND category $catidtest) ORDER BY name";
         return $DB->get_records_sql_menu($sql, $params);
     }
+
+    /**
+     * Utility method which returns the current selected category.
+     */
+    protected function get_current_category($categoryandcontext)
+    {
+        global $DB;
+        echo "categoryandcontext: $categoryandcontext\n";
+        list($categoryid, $contextid) = explode(',', $categoryandcontext);
+        if (!$categoryid) {
+            return false;
+        }
+
+        if (!$category = $DB->get_record('question_categories',
+            array('id' => $categoryid, 'contextid' => $contextid))
+        ) {
+            return false;
+        }
+        return $category;
+    }
+
+    /**
+     * Utility method which returns the list of system categories.
+     *
+     * @return array
+     */
+    private function get_categories()
+    {
+        $cmid = optional_param('cmid', 0, PARAM_INT);
+        $categoryparam = optional_param('category', '', PARAM_TEXT);
+        $courseid = optional_param('courseid', 0, PARAM_INT);
+
+        if ($cmid) {
+            list($thispageurl, $contexts, $cmid, $cm, $quiz, $pagevars) =
+                question_edit_setup('editq', '/mod/quiz/edit.php', true);
+            if ($pagevars['cat']) {
+                $categoryparam = $pagevars['cat'];
+            }
+        }
+
+        if ($categoryparam) {
+            $catandcontext = explode(',', $categoryparam);
+            $cats = question_categorylist($catandcontext[0]);
+            return $cats;
+        } elseif ($cmid) {
+            list($module, $cm) = get_module_from_cmid($cmid);
+            $courseid = $cm->course;
+            require_login($courseid, false, $cm);
+            $thiscontext = context_module::instance($cmid);
+        } else {
+            $module = null;
+            $cm = null;
+            if ($courseid) {
+                $thiscontext = context_course::instance($courseid);
+            } else {
+                $thiscontext = null;
+            }
+        }
+
+        $cats = get_categories_for_contexts($thiscontext->id);
+        return array_keys($cats);
     }
 }
