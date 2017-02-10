@@ -33,8 +33,8 @@ require_once($CFG->dirroot . '/question/classes/bank/search/condition.php');
  */
 class local_questionbanktagfilter_get_question_bank_search_condition extends core_question\bank\search\condition
 {
-    /** @var bool Whether to include old "deleted" questions. */
-    protected $hide;
+    /** @var array list of tags to filter questions. */
+    protected $tags;
 
     /** @var string SQL fragment to add to the where clause. */
     protected $where;
