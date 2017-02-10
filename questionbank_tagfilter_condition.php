@@ -85,42 +85,37 @@ class local_questionbanktagfilter_get_question_bank_search_condition extends cor
         return $this->params;
     }
 
+    /**
+     * Display filter controls.
+     */
+    public function display_options()
+    {
+        require_login();
 
-        return $options;
-    }
-
-    public function display_options() {
-        global $PAGE;
-        // Includes a JavaScript
-        $jsmodule = array(
-            'name' => 'question_bank_tag_filter_utils',
-            'fullpath' => '/local/questionbanktagfilter/question_bank_tag_filter_utils.js',
-            'requires' => array());
-        $PAGE->requires->js_init_call('M.question_bank_tag_filter_helper.init', array(), true, $jsmodule);
-
-        $current_tags_value = isset($_REQUEST['tags']) ? $_REQUEST['tags'] : "";
-        $current_tags = explode(",", $current_tags_value);
-        $tagmenu = $this->get_tag_options();
-
-        echo \html_writer::start_div('choosetag', array("style"=> "margin: 20px 0px;"));
-        echo '<input id="id_tags" name="tags" type="hidden" value="' . $current_tags_value .'"/>';
-        echo \html_writer::label(get_string('selectoneormoretag', 'local_questionbanktagfilter'), 'id_selectatag');
-        echo \html_writer::select($tagmenu, 'tag', $current_tags, array(), array(
-            'multiple' => '',
-            'size' => '5',
+        $tags = $this->get_tags_used();
+        $attr = array(
+            'multiple' => 'true',
+            'class' => 'searchoptions large',
             'style' => 'min-width: 300px; padding: 5px',
-            'id' => 'id_selectatag'
-        ));
-        echo '<br/><input id="search_by_tag_button" type="button" value="' .
-            get_string('filterbyselectedtags', 'local_questionbanktagfilter') . '"/>';
+        );
+        if (count($tags) > 10) {
+            $attr['size'] = 10;
+        }
+
+        echo \html_writer::start_div('choosetag', array("style" => "margin: 20px 0px;"));
+        echo \html_writer::label(get_string('selectoneormoretag', 'local_questionbanktagfilter'), 'id_selectatag');
+        echo \html_writer::select($tags, 'tags[]', $this->tags,
+            array('' => get_string("alltags", 'local_questionbanktagfilter')), $attr);
         echo \html_writer::end_div() . "\n";
     }
 
     /**
      * Print HTML to display the "Also show old questions" checkbox
      */
-    public function display_options_adv() {
+    public function display_options_adv()
+    {
         echo \html_writer::start_div();
-        echo \html_writer::end_div() . "\n";
+        echo \html_writer::end_div() . "\n<br>";
+    }
     }
 }
