@@ -117,5 +117,19 @@ class local_questionbanktagfilter_get_question_bank_search_condition extends cor
         echo \html_writer::start_div();
         echo \html_writer::end_div() . "\n<br>";
     }
+
+    /**
+     * Utility method which returns the list of tags in use.
+     *
+     * @return array
+     */
+    private function get_tags_used()
+    {
+        global $DB;
+        $categories = $this->get_categories();
+        list($catidtest, $params) = $DB->get_in_or_equal($categories, SQL_PARAMS_NAMED, 'cat');
+        $sql = "SELECT name as value, name as display FROM {tag} WHERE id IN (SELECT DISTINCT tagi.tagid FROM {tag_instance} tagi, {question} WHERE itemtype='question' AND {question}.id=tagi.itemid AND category $catidtest) ORDER BY name";
+        return $DB->get_records_sql_menu($sql, $params);
+    }
     }
 }
