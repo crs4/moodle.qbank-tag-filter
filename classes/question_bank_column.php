@@ -34,27 +34,44 @@ require_once($CFG->dirroot . '/question/editlib.php');
  */
 class local_questionbanktagfilter_question_bank_column extends \core_question\bank\column_base
 {
+    protected function get_classes()
+    {
+        $classes = $this->get_extra_classes();
+        $classes[] = get_class($this);
+        return implode(' ', $classes);
+    }
+
+    /**
+     * Return the name of the filter column
+     * @return string
+     */
     public function get_name()
     {
         return 'local_questionbanktagfilter|tags';
     }
 
+    /**
+     * Return the column title
+     *
+     * @return string
+     */
     protected function get_title()
     {
         return get_string("column_title", 'local_questionbanktagfilter');
     }
 
+    /**
+     * Print the tags related to a question as a string of comma separated tokens.
+     */
     protected function display_content($question, $rowclasses)
     {
-        echo $this->get_question_tags($question->id);
+        echo implode(", ", $this->get_question_tags($question->id));
     }
-
 
     public function get_extra_joins()
     {
         return array();
     }
-
 
     public function get_required_fields()
     {
@@ -62,33 +79,14 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
     }
 
     /**
-     * Can this column be sorted on? You can return either:
-     *  + false for no (the default),
-     *  + a field name, if sorting this column corresponds to sorting on that datbase field.
-     *  + an array of subnames to sort on as follows
-     *  return array(
-     *      'firstname' => array('field' => 'uc.firstname', 'title' => get_string('firstname')),
-     *      'lastname' => array('field' => 'uc.lastname', 'field' => get_string('lastname')),
-     *  );
-     * As well as field, and field, you can also add 'revers' => 1 if you want the default sort
-     * order to be DESC.
-     * @return mixed as above.
-     */
-    public function is_sortable()
-    {
-        return '';
-
-    }
-
-    /**
-     * Returns a string of comma separated tags related
-     * to a given question
+     * Return the list of tags related to a given question.
      *
      * @param $questionid
      * @param string $sortorder
      * @return string
      */
-    protected function get_question_tags($questionid, $sortorder = 'name ASC') {
+    protected function get_question_tags($questionid, $sortorder = 'name ASC')
+    {
         global $DB;
         $values = $DB->get_records_sql("
             SELECT DISTINCT t.id as id, t.name AS name
@@ -98,10 +96,10 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
           ORDER BY $sortorder");
 
         $options = array();
-        foreach($values as $name=>$value){
+        foreach ($values as $name => $value) {
             $options[] = $value->name;
         }
 
-        return implode(", ", $options);
+        return $options;
     }
 }
