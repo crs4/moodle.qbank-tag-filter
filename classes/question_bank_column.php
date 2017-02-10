@@ -44,9 +44,12 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
         return get_string("column_title", 'local_questionbanktagfilter');
     }
 
+    /**
+     * Print the tags related to a question as a string of comma separated tokens.
+     */
     protected function display_content($question, $rowclasses)
     {
-        echo $this->get_question_tags($question->id);
+        echo implode(", ", $this->get_question_tags($question->id));
     }
 
 
@@ -80,15 +83,14 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
 
     }
 
-    /**
-     * Returns a string of comma separated tags related
-     * to a given question
+     * Return the list of tags related to a given question.
      *
      * @param $questionid
      * @param string $sortorder
      * @return string
      */
-    protected function get_question_tags($questionid, $sortorder = 'name ASC') {
+    protected function get_question_tags($questionid, $sortorder = 'name ASC')
+    {
         global $DB;
         $values = $DB->get_records_sql("
             SELECT DISTINCT t.id as id, t.name AS name
@@ -98,10 +100,10 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
           ORDER BY $sortorder");
 
         $options = array();
-        foreach($values as $name=>$value){
+        foreach ($values as $name => $value) {
             $options[] = $value->name;
         }
 
-        return implode(", ", $options);
+        return $options;
     }
 }
