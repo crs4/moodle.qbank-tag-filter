@@ -65,24 +65,6 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
     }
 
     /**
-     * Can this column be sorted on? You can return either:
-     *  + false for no (the default),
-     *  + a field name, if sorting this column corresponds to sorting on that datbase field.
-     *  + an array of subnames to sort on as follows
-     *  return array(
-     *      'firstname' => array('field' => 'uc.firstname', 'title' => get_string('firstname')),
-     *      'lastname' => array('field' => 'uc.lastname', 'field' => get_string('lastname')),
-     *  );
-     * As well as field, and field, you can also add 'revers' => 1 if you want the default sort
-     * order to be DESC.
-     * @return mixed as above.
-     */
-    public function is_sortable()
-    {
-        return '';
-
-    }
-
      * Return the list of tags related to a given question.
      *
      * @param $questionid
