@@ -44,23 +44,36 @@ class local_questionbanktagfilter_get_question_bank_search_condition extends cor
 
     /**
      * Constructor.
-     * @param bool $hide whether to include old "deleted" questions.
      */
-    public function __construct($hide = true) {
-        global $CFG, $DB;
-        $this->hide = $hide;
-        if ($hide) {
-            $this->where = 'q.hidden = 0';
+    public function __construct()
+    {
+        $this->tags = optional_param_array('tags', array(), PARAM_TEXT);
+        if ((!empty($this->tags)) && $this->tags[0] == null) {
+            array_shift($this->tags);
         }
+        if ((!empty($this->tags)) || (!empty($this->nottags))) {
+            $this->init();
+        }
+    }
 
-        $tagidtest = null;
+    /**
+     * Initialize filter parameters.
+     */
+    private function init()
+    {
+        global $DB;
+
         $this->params = array();
-
-        if(isset($_REQUEST["tags"]) && $_REQUEST["tags"] !== "*") {
-            $current_tag = $_REQUEST["tags"];
-            if (!empty($current_tag) && $current_tag !== "all") {
-                $this->where = "q.id IN (SELECT tagi.itemid FROM {tag_instance} tagi WHERE tagi.tagid IN ($current_tag))";
+        if (!empty($this->tags)) {
+            if (!is_numeric($this->tags[0])) {
+                list($tagswhere, $tagsparams) = $DB->get_in_or_equal($this->tags, SQL_PARAMS_NAMED, 'tag');
+                $tagids = $DB->get_fieldset_select('tag', 'id', 'name ' . $tagswhere, $tagsparams);
+            } else {
+                $tagids = $this->tags;
             }
+            list($where, $this->params) = $DB->get_in_or_equal($tagids, SQL_PARAMS_NAMED, 'tag');
+            $this->where = "(SELECT COUNT(*) as tagcount FROM {tag_instance} ti WHERE itemid=q.id AND tagid $where)=" .
+                count($this->tags);
         }
     }
 
