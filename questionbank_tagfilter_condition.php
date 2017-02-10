@@ -85,17 +85,6 @@ class local_questionbanktagfilter_get_question_bank_search_condition extends cor
         return $this->params;
     }
 
-    protected function get_tag_options($sortorder = 'name ASC') {
-        global $DB;
-        $values = $DB->get_records_sql("
-            SELECT DISTINCT t.id as id, t.name AS name
-              FROM {tag} t JOIN {tag_instance} ti ON t.id=ti.tagid
-          ORDER BY $sortorder");
-
-        $options = array("*" => get_string("alltags", 'local_questionbanktagfilter'));
-        foreach($values as $name=>$value){
-            $options[$value->id] = $value->name;
-        }
 
         return $options;
     }
