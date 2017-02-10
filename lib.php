@@ -17,10 +17,10 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot . "/local/questionbanktagfilter/question_bank_tag_condition.php");
-require_once($CFG->dirroot . '/question/classes/bank/search/hidden_condition.php');
-require_once($CFG->dirroot . '/question/classes/bank/view.php');
+global $CFG;
 require_once($CFG->dirroot . '/question/editlib.php');
+require_once($CFG->dirroot . "/local/questionbanktagfilter/questionbank_tagfilter_condition.php");
+require_once($CFG->dirroot . "/local/questionbanktagfilter/classes/question_bank_column.php");
 
 /**
  * Registers the tag condition to the QuestionBank View
