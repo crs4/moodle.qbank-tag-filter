@@ -34,11 +34,27 @@ require_once($CFG->dirroot . '/question/editlib.php');
  */
 class local_questionbanktagfilter_question_bank_column extends \core_question\bank\column_base
 {
+    protected function get_classes()
+    {
+        $classes = $this->get_extra_classes();
+        $classes[] = get_class($this);
+        return implode(' ', $classes);
+    }
+
+    /**
+     * Return the name of the filter column
+     * @return string
+     */
     public function get_name()
     {
         return 'local_questionbanktagfilter|tags';
     }
 
+    /**
+     * Return the column title
+     *
+     * @return string
+     */
     protected function get_title()
     {
         return get_string("column_title", 'local_questionbanktagfilter');
@@ -52,12 +68,10 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
         echo implode(", ", $this->get_question_tags($question->id));
     }
 
-
     public function get_extra_joins()
     {
         return array();
     }
-
 
     public function get_required_fields()
     {
