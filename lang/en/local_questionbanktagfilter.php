@@ -29,11 +29,16 @@
  */
 
 $string['pluginname'] = "Question Bank Tag Filter";
-$string['selectonetag']="Select one TAG:";
+$string['selectonetag'] = "Select one TAG:";
 
 $string["alltags"] = "all classifiers";
-$string['selectoneormoretag']="Select one or more classifiers:";
-$string['filterbyselectedtags']="Filter by selected classifiers";
+$string['selectoneormoretag'] = "Select one or more classifiers:";
+$string['filterbyselectedtags'] = "Filter by selected classifiers";
 
 # question bank column name
-$string['column_title']="Classifiers";
+$string['column_title'] = "Classifiers";
+
+# actions
+$string['edit'] = "edit";
+$string['translate'] = "translate";
+$string['view'] = "display";

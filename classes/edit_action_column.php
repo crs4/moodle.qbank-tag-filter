@@ -39,8 +39,9 @@ class local_questionbanktagfilter_edit_action_column extends \core_question\bank
     public function init()
     {
         parent::init();
-        $this->stredit = "edit";
-        $this->strview = "view";
+        $this->stredit = get_string("edit", "local_questionbanktagfilter");
+        $this->strtranslate = get_string("translate", "local_questionbanktagfilter");
+        $this->strview = get_string("view", "local_questionbanktagfilter");
     }
 
 
