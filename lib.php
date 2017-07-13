@@ -21,6 +21,7 @@ global $CFG;
 require_once($CFG->dirroot . '/question/editlib.php');
 require_once($CFG->dirroot . "/local/questionbanktagfilter/questionbank_tagfilter_condition.php");
 require_once($CFG->dirroot . "/local/questionbanktagfilter/classes/question_bank_column.php");
+require_once($CFG->dirroot . "/local/questionbanktagfilter/classes/edit_action_column.php");
 
 /**
  * Registers the tag condition to the QuestionBank View
@@ -54,6 +55,9 @@ function local_questionbanktagfilter_get_question_bank_column_types($question_ba
     if ($question_bank_view == 'quiz_question_bank_view') {
         return array();
     }
-    return array('tags' => new local_questionbanktagfilter_question_bank_column($question_bank_view));
+    return array(
+        'tags' => new local_questionbanktagfilter_question_bank_column($question_bank_view),
+        'edit' => new local_questionbanktagfilter_edit_action_column($question_bank_view)
+    );
 }
 
