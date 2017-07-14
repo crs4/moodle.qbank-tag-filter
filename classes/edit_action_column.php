@@ -82,7 +82,7 @@ class local_questionbanktagfilter_edit_action_column extends \core_question\bank
                 $this->print_icon('t/edit', $this->stredit, $this->qbank->edit_question_url($question->id));
             }
 
-            if (has_capability('question/qtype_omerocommon:translator_it', $context, $USER)) {
+            if (has_capability('question/qtype_omerocommon:translate', $context, $USER)) {
                 $this->print_icon('i/publish', $this->strtranslate, $this->qbank->edit_question_url($question->id));
             }
 
