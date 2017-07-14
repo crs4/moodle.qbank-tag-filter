@@ -78,16 +78,18 @@ class local_questionbanktagfilter_edit_action_column extends \core_question\bank
             // Add "author edit" and "translate" function
             $context = context_course::instance(required_param('courseid', PARAM_INT));
 
-            if (has_capability('question/qtype_omerocommon:author', $context, $USER) && question_has_capability_on($question, 'edit')) {
-                $this->print_icon('t/edit', $this->stredit, $this->qbank->edit_question_url($question->id));
+            if (has_capability('question/qtype_omerocommon:author', $context, $USER)
+                && question_has_capability_on($question, 'edit')) {
+                $this->print_icon('t/edit', $this->stredit, $this->edit_question_url($question));
             }
 
             if (has_capability('question/qtype_omerocommon:translate', $context, $USER)) {
-                $this->print_icon('i/publish', $this->strtranslate, $this->qbank->edit_question_url($question->id));
+                $this->print_icon('i/publish', $this->strtranslate,
+                    $this->edit_question_url($question, "translate"));
             }
 
             if (question_has_capability_on($question, 'view')) {
-                $this->print_icon('i/info', $this->strview, $this->qbank->edit_question_url($question->id));
+                $this->print_icon('i/info', $this->strview, $this->edit_question_url($question, "view"));
             }
 
         } else {
