@@ -39,6 +39,6 @@ $string['filterbyselectedtags'] = "Filter by selected classifiers";
 $string['column_title'] = "Classifiers";
 
 # actions
-$string['edit'] = "edit";
-$string['translate'] = "translate";
-$string['view'] = "display";
+$string['edit'] = "Edit";
+$string['translate'] = "Translate";
+$string['view'] = "Display";
