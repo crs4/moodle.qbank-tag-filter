@@ -98,8 +98,15 @@ class local_questionbanktagfilter_edit_action_column extends \core_question\bank
                 $this->print_icon('i/info', $this->strview, $this->qbank->edit_question_url($question->id));
             }
         }
+
     }
 
+    private function edit_question_url($question, $mode = null)
+    {
+        return $this->qbank->edit_question_url($question->id) . (!is_null($mode) ? "&mode=$mode" : "");
+    }
+
+    
     protected function print_icon($icon, $title, $url)
     {
         global $OUTPUT;
