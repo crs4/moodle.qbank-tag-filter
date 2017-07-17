@@ -71,9 +71,19 @@ class local_questionbanktagfilter_edit_action_column extends \core_question\bank
     }
 
 
+    protected function display_default_content($question, $rowclasses)
+    {
+        if (question_has_capability_on($question, 'edit')) {
+            $this->print_icon('t/edit', $this->stredit, $this->qbank->edit_question_url($question->id));
+        } else if (question_has_capability_on($question, 'view')) {
+            $this->print_icon('i/info', $this->strview, $this->qbank->edit_question_url($question->id));
+        }
+    }
+
     protected function display_content($question, $rowclasses)
     {
         global $USER;
+        $display_defaults = true;
         if ($question->qtype === 'omeromultichoice' || $question->qtype === 'omerointeractive') {
             // Add "author edit" and "translate" function
             $context = context_course::instance(required_param('courseid', PARAM_INT));
@@ -81,26 +91,27 @@ class local_questionbanktagfilter_edit_action_column extends \core_question\bank
             if (has_capability('question/qtype_omerocommon:author', $context, $USER)
                 && question_has_capability_on($question, 'edit')) {
                 $this->print_icon('t/edit', $this->stredit, $this->edit_question_url($question));
+                $display_defaults = false;
             }
 
             if (has_capability('question/qtype_omerocommon:translate', $context, $USER)) {
                 $this->print_icon('i/publish', $this->strtranslate,
                     $this->edit_question_url($question, "translate"));
+                $display_defaults = false;
             }
 
-            if (question_has_capability_on($question, 'view')) {
+            if (has_capability('question/qtype_omerocommon:view', $context, $USER)) {
                 $this->print_icon('i/info', $this->strview, $this->edit_question_url($question, "view"));
+                $display_defaults = false;
             }
+
+            if ($display_defaults)
+                $this->display_default_content($question, $rowclasses);
 
         } else {
             // Default edit action for question not in {omeromultichoice, omerointeractive}
-            if (question_has_capability_on($question, 'edit')) {
-                $this->print_icon('t/edit', $this->stredit, $this->qbank->edit_question_url($question->id));
-            } else if (question_has_capability_on($question, 'view')) {
-                $this->print_icon('i/info', $this->strview, $this->qbank->edit_question_url($question->id));
-            }
+            $this->display_default_content($question, $rowclasses);
         }
-
     }
 
     private function edit_question_url($question, $mode = "author")
