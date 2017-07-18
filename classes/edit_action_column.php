@@ -22,45 +22,19 @@
 defined('MOODLE_INTERNAL') || die;
 
 global $CFG;
-require_once($CFG->dirroot . '/question/editlib.php');
+require_once('qbank_action_column.php');
 
 
 /**
- * Base class for question bank columns that just contain an action icon.
+ * Copy action column for the QuestionBank table.
  *
- * @copyright  2009 Tim Hunt
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local
+ * @subpackage questionbanktagfilter
+ * @copyright  2015-2016 CRS4
+ * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
-class local_questionbanktagfilter_edit_action_column extends \core_question\bank\column_base
+class local_questionbanktagfilter_edit_action_column extends local_questionbanktagfilter_qbank_action_column
 {
-    protected $stredit;
-    protected $strview;
-
-    public function init()
-    {
-        parent::init();
-        $this->stredit = get_string("edit", "local_questionbanktagfilter");
-        $this->strtranslate = get_string("translate", "local_questionbanktagfilter");
-        $this->strview = get_string("view", "local_questionbanktagfilter");
-    }
-
-
-    /**
-     * Return the column title
-     *
-     * @return string
-     */
-
-    protected function get_title()
-    {
-        return '&#160;';
-    }
-
-    public function get_extra_classes()
-    {
-        return array('iconcol');
-    }
-
     /**
      * Return the name of the filter column
      * @return string
@@ -70,71 +44,24 @@ class local_questionbanktagfilter_edit_action_column extends \core_question\bank
         return 'local_questionbanktagfilter|edit';
     }
 
-
-    protected function display_default_content($question, $rowclasses)
-    {
-        if (question_has_capability_on($question, 'edit')) {
-            $this->print_icon('t/edit', $this->stredit, $this->qbank->edit_question_url($question->id));
-        } else if (question_has_capability_on($question, 'view')) {
-            $this->print_icon('i/info', $this->strview, $this->qbank->edit_question_url($question->id));
-        }
-    }
-
+    /**
+     * Column definition
+     *
+     * @param object $question
+     * @param string $rowclasses
+     */
     protected function display_content($question, $rowclasses)
     {
         global $USER;
-        $display_defaults = true;
         if ($question->qtype === 'omeromultichoice' || $question->qtype === 'omerointeractive') {
-            // Add "author edit" and "translate" function
             $context = context_course::instance(required_param('courseid', PARAM_INT));
-
-            if (has_capability('question/qtype_omerocommon:author', $context, $USER)
+            if ($this->check_is_author($question, $USER) ||
+                has_capability('question/qtype_omerocommon:author', $context, $USER)
                 && question_has_capability_on($question, 'edit')) {
-                $this->print_icon('t/edit', $this->stredit, $this->edit_question_url($question));
-                $display_defaults = false;
+                $this->print_icon('i/edit', $this->stredit, $this->edit_question_url($question));
             }
-
-            if (has_capability('question/qtype_omerocommon:translate', $context, $USER)) {
-                $this->print_icon('i/publish', $this->strtranslate,
-                    $this->edit_question_url($question, "translate"));
-                $display_defaults = false;
-            }
-
-            if (has_capability('question/qtype_omerocommon:view', $context, $USER)) {
-                $this->print_icon('i/info', $this->strview, $this->edit_question_url($question, "view"));
-                $display_defaults = false;
-            }
-
-            if ($display_defaults)
-                $this->display_default_content($question, $rowclasses);
-
-        } else {
-            // Default edit action for question not in {omeromultichoice, omerointeractive}
-            $this->display_default_content($question, $rowclasses);
+        } else if (question_has_capability_on($question, 'edit')) {
+            $this->print_icon('t/edit', $this->stredit, $this->qbank->edit_question_url($question->id));
         }
-    }
-
-    private function edit_question_url($question, $mode = "author")
-    {
-        return $this->qbank->edit_question_url($question->id) . (!is_null($mode) ? "&mode=$mode" : "");
-    }
-
-
-    protected function print_icon($icon, $title, $url)
-    {
-        global $OUTPUT;
-        echo '<a title="' . $title . '" href="' . $url . '">
-                <img src="' . $OUTPUT->pix_url($icon) . '" class="iconsmall" alt="' . $title . '" /></a>';
-    }
-
-
-    public function get_extra_joins()
-    {
-        return array();
-    }
-
-    public function get_required_fields()
-    {
-        return array();
     }
 }
