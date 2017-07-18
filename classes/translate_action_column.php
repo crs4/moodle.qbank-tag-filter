@@ -60,7 +60,11 @@ class local_questionbanktagfilter_translate_action_column extends local_question
             if (has_capability('question/qtype_omerocommon:translate', $context, $USER)) {
                 $this->print_icon('i/publish', $this->strtranslate,
                     $this->edit_question_url($question, "translate"));
-            }
+            } else if (!has_capability('question/qtype_omerocommon:view', $context, $USER)
+                && !has_capability('question/qtype_omerocommon:view', $context, $USER)
+                && $this->check_is_author($question, $USER))
+                $this->print_icon('i/publish', $this->strtranslate,
+                    $this->edit_question_url($question, "translate"));
         } else {
             if (question_has_capability_on($question, 'edit')) {
                 $this->print_icon('t/edit', $this->stredit, $this->qbank->edit_question_url($question->id));
