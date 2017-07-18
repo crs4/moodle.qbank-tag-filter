@@ -60,7 +60,8 @@ class local_questionbanktagfilter_view_action_column extends local_questionbankt
         global $USER;
         if ($question->qtype === 'omeromultichoice' || $question->qtype === 'omerointeractive') {
             $context = context_course::instance(required_param('courseid', PARAM_INT));
-            if (has_capability('question/qtype_omerocommon:view', $context, $USER)) {
+            if ($this->check_is_author($question, $USER) ||
+                has_capability('question/qtype_omerocommon:view', $context, $USER)) {
                 $this->print_icon('i/info', $this->strview, $this->edit_question_url($question, "view"));
             }
         } else if (question_has_capability_on($question, 'view')) {
