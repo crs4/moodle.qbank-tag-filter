@@ -52,15 +52,13 @@ class local_questionbanktagfilter_delete_action_column extends local_questionban
      */
     protected function display_default_content($question, $rowclasses)
     {
-        if (question_has_capability_on($question, 'edit')) {
-            if ($question->hidden) {
-                $url = new \moodle_url($this->qbank->base_url(), array('unhide' => $question->id, 'sesskey' => sesskey()));
-                $this->print_icon('t/restore', $this->strrestore, $url);
-            } else {
-                $url = new \moodle_url($this->qbank->base_url(), array('deleteselected' => $question->id, 'q' . $question->id => 1,
-                    'sesskey' => sesskey()));
-                $this->print_icon('t/delete', $this->strdelete, $url);
-            }
+        if ($question->hidden) {
+            $url = new \moodle_url($this->qbank->base_url(), array('unhide' => $question->id, 'sesskey' => sesskey()));
+            $this->print_icon('t/restore', $this->strrestore, $url);
+        } else {
+            $url = new \moodle_url($this->qbank->base_url(), array('deleteselected' => $question->id, 'q' . $question->id => 1,
+                'sesskey' => sesskey()));
+            $this->print_icon('t/delete', $this->strdelete, $url);
         }
     }
 
@@ -73,13 +71,10 @@ class local_questionbanktagfilter_delete_action_column extends local_questionban
     protected function display_content($question, $rowclasses)
     {
         global $USER;
-        if ($question->qtype === 'omeromultichoice' || $question->qtype === 'omerointeractive') {
-            $context = context_course::instance(required_param('courseid', PARAM_INT));
-            if ($this->check_is_author($question, $USER) ||
-                has_capability('question/qtype_omerocommon:author', $context, $USER)) {
+        if (($question->qtype === 'omeromultichoice' || $question->qtype === 'omerointeractive')) {
+            if ($this->check_is_author($question, $USER))
                 $this->display_default_content($question, $rowclasses);
-            }
-        } else {
+        } else if (question_has_capability_on($question, 'edit')) {
             $this->display_default_content($question, $rowclasses);
         }
     }
