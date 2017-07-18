@@ -56,7 +56,7 @@ class local_questionbanktagfilter_edit_action_column extends local_questionbankt
         if ($question->qtype === 'omeromultichoice' || $question->qtype === 'omerointeractive') {
             $context = context_course::instance(required_param('courseid', PARAM_INT));
             if ($this->check_is_author($question, $USER) ||
-                has_capability('question/qtype_omerocommon:author', $context, $USER)
+                has_capability('question/qtype_omerocommon:review', $context, $USER)
                 && question_has_capability_on($question, 'edit')) {
                 $this->print_icon('i/edit', $this->stredit, $this->edit_question_url($question));
             }
