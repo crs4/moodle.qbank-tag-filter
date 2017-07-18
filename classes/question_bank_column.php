@@ -42,7 +42,8 @@ class local_questionbanktagfilter_question_bank_column extends \core_question\ba
     }
 
     /**
-     * Return the name of the filter column
+     * Return the column name
+     *
      * @return string
      */
     public function get_name()
