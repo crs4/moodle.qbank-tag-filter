@@ -57,7 +57,11 @@ function local_questionbanktagfilter_get_question_bank_column_types($question_ba
     }
     return array(
         'tags' => new local_questionbanktagfilter_question_bank_column($question_bank_view),
-        'edit' => new local_questionbanktagfilter_edit_action_column($question_bank_view)
+        'edit' => new local_questionbanktagfilter_edit_action_column($question_bank_view),
+        'view' => new local_questionbanktagfilter_view_action_column($question_bank_view),
+        'copy' => new local_questionbanktagfilter_copy_action_column($question_bank_view),
+        'translate' => new local_questionbanktagfilter_translate_action_column($question_bank_view),
+        'delete' => new local_questionbanktagfilter_delete_action_column($question_bank_view)
     );
 }
 
