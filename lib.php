@@ -20,7 +20,7 @@ defined('MOODLE_INTERNAL') || die;
 global $CFG;
 require_once($CFG->dirroot . '/question/editlib.php');
 require_once($CFG->dirroot . "/local/questionbanktagfilter/questionbank_tagfilter_condition.php");
-require_once($CFG->dirroot . "/local/questionbanktagfilter/classes/question_bank_column.php");
+require_once($CFG->dirroot . "/local/questionbanktagfilter/classes/tags_column.php");
 require_once($CFG->dirroot . "/local/questionbanktagfilter/classes/edit_action_column.php");
 
 /**
@@ -56,7 +56,7 @@ function local_questionbanktagfilter_get_question_bank_column_types($question_ba
         return array();
     }
     return array(
-        'tags' => new local_questionbanktagfilter_question_bank_column($question_bank_view),
+        'tags' => new local_questionbanktagfilter_tags_column($question_bank_view),
         'edit' => new local_questionbanktagfilter_edit_action_column($question_bank_view),
         'view' => new local_questionbanktagfilter_view_action_column($question_bank_view),
         'copy' => new local_questionbanktagfilter_copy_action_column($question_bank_view),

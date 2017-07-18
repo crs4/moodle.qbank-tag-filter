@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/question/editlib.php');
  * @copyright  2015-2016 CRS4
  * @license    https://opensource.org/licenses/mit-license.php MIT license
  */
-class local_questionbanktagfilter_question_bank_column extends \core_question\bank\column_base
+class local_questionbanktagfilter_tags_column extends \core_question\bank\column_base
 {
     protected function get_classes()
     {
